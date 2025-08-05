@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class MemberInput {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		// 객체 배열
 		MemberInfo[] m = new MemberInfo[5];
 		int i = 0;
@@ -46,12 +46,15 @@ public class MemberInput {
 
 }
 
+
+// DTO(Data Transfer Object)
 class MemberInfo {
-	private String name;
+	private String name;		// 필드
 	private int age;
 	private String email;
 	private String address;
 
+	// 생성자
 	public MemberInfo(String name, int age, String email, String address) {
 		this.name = name;
 		this.age = age;
@@ -59,6 +62,7 @@ class MemberInfo {
 		this.address = address;
 	}
 
+	// getter method
 	public String getName() {
 		return name;
 	}
