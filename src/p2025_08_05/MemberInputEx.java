@@ -26,7 +26,7 @@ class MemberInfo0{
 	
 }
 
-public class MemberInput0 {
+public class MemberInputEx {
 	public static void main(String[] args) {
 	
 		Scanner sc = new Scanner(System.in);

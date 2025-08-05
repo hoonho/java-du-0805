@@ -1,82 +1,124 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MemberInput {
+class Member {
+  private String name;
+  private int age;
+  private String email;
+  private String address;
 
-	public static void main(String[] args) {
-		
-		// 객체 배열
-		MemberInfo[] m = new MemberInfo[5];
-		int i = 0;
-		String yn;
-		Scanner sc = new Scanner(System.in);
-		String name, email, address;
-		int age;
-		do {						
-			System.out.print("성명을 입력하세요? ");
-			name = sc.nextLine();
-			System.out.print("나이를 입력하세요? ");
-			age = sc.nextInt(); // 숫자를 입력받은후에 enter키를 
-			sc.nextLine();	    // 누르면 null값을 return하게 됨
-			System.out.print("E-Mail을 입력하세요? ");
-			email = sc.nextLine();			
-			System.out.print("주소를 입력하세요? ");
-			address = sc.nextLine();		
-	
-			m[i] = new MemberInfo(name, age, email, address);
-			// m.name="홍길동";
-			i++;
+  public Member() {}
 
-			System.out.print("계속할려면 y, 멈출려면 n을 입력?");
-			yn = sc.nextLine();
-			if (yn.equals("y") || yn.equals("Y")) {
-				continue;
-			} else if (yn.equals("n") || yn.equals("N")) {
-				break;
-			}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-		} while (true);
+  public void setAge(int age) {
+    this.age = age;
+  }
 
-		for (int j = 0; j < i; j++) {
-			System.out.println("성명:" + m[j].getName());
-			System.out.println("나이:" + m[j].getAge());
-			System.out.println("E-Mail:" + m[j].getEmail());
-			System.out.println("주소:" + m[j].getAddress());
-		}
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getInfo() {
+    return name + "\t" + age + "\t" + email + "\t" + address;
+  }
 }
 
+class MemberManager {
+  private ArrayList<Member> memberList = new ArrayList<>();
+  private Scanner sc = new Scanner(System.in);
 
-// DTO(Data Transfer Object)
-class MemberInfo {
-	private String name;		// 필드
-	private int age;
-	private String email;
-	private String address;
+  public void inputMember() {
+    Member member = new Member();
 
-	// 생성자
-	public MemberInfo(String name, int age, String email, String address) {
-		this.name = name;
-		this.age = age;
-		this.email = email;
-		this.address = address;
-	}
+    System.out.print("이름: ");
+    member.setName(sc.nextLine());
 
-	// getter method
-	public String getName() {
-		return name;
-	}
+    int age = 0;
+    while (true) {
+      System.out.print("나이: ");
+      try {
+        age = Integer.parseInt(sc.nextLine());
+        member.setAge(age);
+        break;
+      } catch (NumberFormatException e) {
+        System.out.println("숫자를 입력하세요.");
+      }
+    }
 
-	public int getAge() {
-		return age;
-	}
+    System.out.print("이메일: ");
+    member.setEmail(sc.nextLine());
 
-	public String getEmail() {
-		return email;
-	}
+    System.out.print("주소: ");
+    member.setAddress(sc.nextLine());
 
-	public String getAddress() {
-		return address;
-	}
+    memberList.add(member);
+    System.out.println("회원가입이 완료되었습니다.");
+  }
 
+  public void printMembers() {
+    if (memberList.isEmpty()) {
+      System.out.println("등록된 회원이 없습니다.");
+      return;
+    }
+
+    System.out.println("\n--- 회원 목록 ---");
+    for (Member m : memberList) {
+      System.out.println(m.getInfo());
+    }
+  }
+}
+
+public class MemberInput {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    MemberManager manager = new MemberManager();
+
+    while (true) {
+      System.out.println("\n1. 회원가입");
+      System.out.println("2. 회원 정보 출력");
+      System.out.println("0. 종료");
+
+      int choice = -1;
+      while (true) {
+        System.out.print("메뉴 선택: ");
+        String input = sc.nextLine();
+
+        try {
+          choice = Integer.parseInt(input);
+          if (choice < 0 || choice > 2) {
+            System.out.println("잘못된 입력입니다.");
+            continue;
+          }
+          break;
+        } catch (NumberFormatException e) {
+          System.out.println("숫자만 입력 가능합니다.");
+        }
+      }
+
+      switch (choice) {
+        case 1:
+          manager.inputMember();
+          break;
+
+        case 2:
+          manager.printMembers();
+          break;
+
+        case 0:
+          System.out.println("프로그램을 종료합니다.");
+          sc.close();
+          return;
+
+        default:
+          System.out.println("잘못된 입력입니다.");
+      }
+    }
+  }
 }
